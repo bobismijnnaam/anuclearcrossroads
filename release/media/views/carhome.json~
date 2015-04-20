@@ -1,0 +1,10 @@
+{
+	"left": "livingroom",
+	"music": "stationary.wav",
+	"clickable": [
+		{
+			"area": "right",
+			"actions": ["transition 3000 carwork", "playsound drive.wav"]
+		}
+	]
+}

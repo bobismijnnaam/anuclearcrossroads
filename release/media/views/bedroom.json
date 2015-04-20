@@ -1,0 +1,27 @@
+{
+	"right": "livingroom",
+	"music": "birds.wav",
+	"triggers": [
+		{
+			"condition": "meq $nukes 5",
+			"modifiers": {
+				"clickable": [
+					{
+						"area": [0, 371, 263, 170],
+						"actions": ["transition 300 bedroom ", "set $nukes 0", "set $skips 0", "inc $day"]
+					}
+				]
+			}
+		}, {
+			"condition": "else",
+			"modifiers": {
+				"clickable": [
+					{
+						"area": [0, 371, 263, 170],
+						"actions": ["say Looking forward to sleeping after work"]
+					}
+				]
+			}
+		}
+	] 
+}

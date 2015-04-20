@@ -1,0 +1,41 @@
+// File: Target.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-22
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef TARGET_HPP
+#define TARGET_HPP
+
+// Public
+#include <SDL2/SDL.h>
+
+// Private
+#include "nnb/graphics/TextureContainer.hpp"
+#include "game/Player.hpp"
+
+extern int TARGET_OK;
+extern int TARGET_REMOVE;
+extern int TARGET_STARTSIZE;
+extern float TARGET_SMOOTH;
+
+class Target {
+public:
+	Target(int x_ = 0, int y_ = 0);
+	~Target();
+
+	void event(SDL_Event& e);
+	int logic(float delta, Player *player);
+	void render() const;
+
+	int playerCheck(Player *player);
+	int getX() const;
+	int getY() const;
+
+private:
+	nnb::TextureContainer sprite;
+	int x, y;
+	float health = 100;
+
+} ;
+
+#endif

@@ -1,0 +1,33 @@
+// File: Me.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-21
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef ME_HPP
+#define ME_HPP
+
+// Public
+
+// Private
+#include "nnb/graphics/TextureContainer.hpp"
+
+class Me {
+public:
+	Me();
+	~Me();
+
+	void event(SDL_Event &e);
+	void logic(float delta);
+	void render() const;
+
+	int getX() const;
+	int getY() const;
+
+private:
+	nnb::TextureContainer sprite;
+	int x = 0;
+	int y = 0;
+
+} ;
+
+#endif

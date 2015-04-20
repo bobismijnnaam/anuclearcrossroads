@@ -1,0 +1,57 @@
+{
+	"triggers": [
+		{
+			"condition": "eq $day 3",
+			"modifiers": {
+				"clickable": [
+					{
+						"area": [117, 135, 111, 207],
+						"actions": ["transition 300 roof"]
+					},
+					{
+						"area": "left",
+						"actions": ["say I can't go down there # There's a riot all over the place"]
+					}
+				]
+			}
+		}, {
+			"condition": "meq $nukes 5",
+			"modifiers": {
+				"onEnter": ["say Time to go home and get some rest"],
+				"clickable": [
+					{
+						"area": [117, 135, 111, 207],
+						"actions":["say This leads to the roof. Too high for me."]
+					}, {
+						"area": "left",
+						"actions": ["goto workentrance"]
+					}
+				]
+			}
+		}, {
+			"condition": "else",
+			"modifiers": {
+				"music": "office.wav",
+				"clickable": [
+					{
+						"area": [117, 135, 111, 207],
+						"actions":["say This leads to the roof. Too high for me."]
+					}, {
+						"area": "left",
+						"actions": ["say I still have work to do"]
+					}
+				]
+			}
+		}
+	],
+	"clickable": [
+		{
+			"area": [233, 263, 239, 271],
+			"actions": ["goto button"],
+			"condition": "le $has_button 1"
+		}
+	],
+	"items": [
+		"spanner.png 164 468"
+	]
+}

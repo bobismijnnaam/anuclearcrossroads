@@ -1,0 +1,66 @@
+// File: Player.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-21
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
+// Public
+#include <SDL2/SDL.h>
+#include <vector>
+
+// Private
+#include "nnb/graphics/TextureContainer.hpp"
+
+extern float LIMB_SPEED;
+extern int PLAYER_SWITCHTIME;
+extern int const PLAYER_MOVING;
+extern int const PLAYER_SWITCHING;
+extern int const PLAYER_SIZE;
+extern float SMOOTH_ME;
+extern float SMOOTH_LIMB;
+extern float PLAYER_LIVES;
+extern int BLINK_DURATION;
+
+class Player {
+public:
+	Player(bool menumode_ = false);
+	~Player();
+
+	void event(SDL_Event &e);
+	void logic(float delta);
+	void render() const;
+
+	int getLimbX();
+	int getLimbY();
+	int getMeX();
+	int getMeY();
+	int getState();
+	SDL_Rect getMeBounds();
+	SDL_Rect getLimbBounds();
+	void damage();
+	int getLives();
+
+private:
+	nnb::TextureContainer meSprite;
+	int meX = 0, meY = 0;
+
+	nnb::TextureContainer limbSprite;
+	int dx = 0, dy = 0;
+	float limbX = 0, limbY = 0;
+
+	int state = PLAYER_MOVING;
+	int stateStart = 0;
+	int limbToX, limbToY, meToX, meToY;
+
+	int mouseOffX = 0, mouseOffY = 0;
+	int currMx = 0, currMy = 0;
+
+	std::vector<nnb::TextureContainer> hearts;
+	int lives;
+	bool blinking = false;
+	int blinkStart;
+} ;
+
+#endif

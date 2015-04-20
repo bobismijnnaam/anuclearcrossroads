@@ -1,0 +1,204 @@
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2014-11-07
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+// Public
+#include <cmath>
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <string>
+#include <vector>
+#include <sstream>
+
+// Private
+#include "gamestates/gsGameOver.hpp"
+#include "main/global.hpp"
+#include "nnb/log/log.hpp"
+#include "nnb/utils/constants.hpp"
+#include "nnb/utils/StringHelpers.hpp"
+#include "main/highscore.hpp"
+
+gsGameOver::gsGameOver() : player(true) {
+	gameOver = g_fm->getText("04b03.ttf", 50);
+	gameOver.setText("GAME OVER");
+	gameOver.setPosition(SCR_W / 2, 0);
+	gameOver.setHAlign(nnb::HAlign::CENTER);
+	gameOver.setColor(gb_4);
+
+	std::stringstream ss;
+	ss << "Your score: " << finalScore << "!";
+	score = g_fm->getText("04b03.ttf", 50);
+	score.setText(ss.str());
+	score.setPosition(SCR_W / 2, 100);
+	score.setHAlign(nnb::HAlign::CENTER);
+	score.setColor(gb_4);
+
+	yourName = g_fm->getText("04b03.ttf", 50);
+	yourName.setText("Your name:");
+	yourName.setPosition(335, 200);
+	yourName.setHAlign(nnb::HAlign::RIGHT);
+	yourName.setColor(gb_4);
+
+	tryAgain = g_fm->getText("04b03.ttf", 50);
+	tryAgain.setText("Play again?");
+	tryAgain.setPosition(SCR_W / 2, 300);
+	tryAgain.setHAlign(nnb::HAlign::CENTER);
+	tryAgain.setColor(gb_4);
+
+	highscores = g_fm->getText("04b03.ttf", 50);
+	highscores.setText("Show highscores");
+	highscores.setPosition(SCR_W / 2, 400);
+	highscores.setHAlign(nnb::HAlign::CENTER);
+	highscores.setColor(gb_4);
+
+	menu = g_fm->getText("04b03.ttf", 50);
+	menu.setText("Back to menu");
+	menu.setPosition(SCR_W / 2, 500);
+	menu.setHAlign(nnb::HAlign::CENTER);
+	menu.setColor(gb_4);
+
+	inputBox = g_fm->getText("04b03.ttf", 50);
+	inputBox.setPosition(345, 200);
+	inputBox.setHAlign(nnb::HAlign::LEFT);
+	inputBox.setColor(gb_3);
+
+	SDL_StartTextInput();
+}
+
+gsGameOver::~gsGameOver() {
+	SDL_StopTextInput();
+
+	if (nnb::trim(total).size() > 0) {
+		auto highscoresDB = getHighscores();
+		
+		NNB_DEBUG << highscoresDB.size();
+
+		for (int i = 0; i < highscoresDB.size(); ++i) {
+			if (std::get<1>(highscoresDB[i]) <= finalScore) {
+				highscoresDB.insert(highscoresDB.begin() + i, std::make_tuple(total, finalScore));
+				break;
+			}
+		}
+
+		if (highscoresDB.size() > 7) {
+			highscoresDB.erase(highscoresDB.begin() + 7, highscoresDB.end());
+		}
+
+		NNB_DEBUG << highscoresDB.size();
+
+		setHighscores(highscoresDB);
+	}
+
+}
+
+void gsGameOver::event(SDL_Event& e) {
+	player.event(e);
+
+	switch (e.type) {
+		case SDL_QUIT:
+			g_gm->exit();
+			NNB_LOG << "Exit was requested";
+			break;
+		case SDL_MOUSEBUTTONUP:
+			NNB_LOG << "Mouse button was pressed at (" << e.button.x << "; " << e.button.y << ")";
+			break;
+		case SDL_KEYDOWN:
+			if (e.key.keysym.sym == SDLK_ESCAPE) {
+				g_gm->setState("main");
+			} else if (e.key.keysym.sym == SDLK_BACKSPACE) {
+				if (total.size() > 0) {
+					total = total.substr(0, total.size() - 1);
+				}
+			}
+			break;
+		case SDL_TEXTINPUT:
+			{
+				std::string input(e.text.text);
+				if (total.size() + input.size() < 14) {
+					total = total + input;
+				}
+			}
+			break;
+		default:
+			break;
+	}
+
+}
+
+void gsGameOver::logic(float delta) {
+	// No logic here
+	//
+	// heheheheheh
+	
+	player.logic(delta);
+
+	SDL_Rect tryBB = tryAgain.getBounds();
+	SDL_Rect highBB = highscores.getBounds();
+	SDL_Rect menuBB = menu.getBounds();
+	SDL_Rect meBB = player.getMeBounds();
+
+	if (SDL_HasIntersection(&tryBB, &meBB)) {
+		target = 0;
+		changeStart = SDL_GetTicks();
+	} else if (SDL_HasIntersection(&highBB, &meBB)) {
+		target = 1;
+		changeStart = SDL_GetTicks();
+	} else if (SDL_HasIntersection(&menuBB, &meBB)) {
+		target = 2;
+		changeStart = SDL_GetTicks();
+	}
+
+	if (target != -1) {
+		float d = (SDL_GetTicks() - changeStart) / (float) 800;
+		switch (target) {
+		case 0:
+			tryAgain.setColor((1 - d) * 255 + d * gb_4.r, (1 - d)*255 + d * gb_4.g, (1 - d)*255 + d * gb_4.b);
+			break;
+		case 1:
+			highscores.setColor((1 - d) * 255 + d * gb_4.r, (1 - d)*255 + d * gb_4.g, (1 - d)*255 + d * gb_4.b);
+			break;
+		case 2:
+			menu.setColor((1 - d) * 255 + d * gb_4.r, (1 - d)*255 + d * gb_4.g, (1 - d)*255 + d * gb_4.b);
+			break;
+		}
+	}
+
+	if (target != -1 && SDL_GetTicks() - changeStart > 800) {
+		switch (target) {
+		case 0:
+			g_gm->setState("game");
+			break;
+		case 1:
+			g_gm->setState("highscores");
+			break;
+		case 2:
+			g_gm->setState("main");
+			break;
+		}
+	}
+
+	inputBox.setText(total);
+}
+
+void gsGameOver::render() const {
+	SDL_SetRenderDrawColor(g_renderer, gb_1.r, gb_1.g, gb_1.b, 255);
+	SDL_RenderClear(g_renderer);
+
+	gameOver.render();
+
+	score.render();
+
+	yourName.render();
+
+	tryAgain.render();
+
+	highscores.render();
+
+	menu.render();
+
+	player.render();
+
+	inputBox.render();
+
+	SDL_RenderPresent(g_renderer);
+}

@@ -1,0 +1,7 @@
+set(SOURCES
+	${SOURCES}
+	"${CMAKE_CURRENT_SOURCE_DIR}/gsGame.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/gsMainMenu.cpp"
+	PARENT_SCOPE
+)
+	

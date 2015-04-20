@@ -1,0 +1,1 @@
+ -Lc:/nnb/build  -lnutsnbolts -lmingw32 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lSDL2main -lSDL2 -lpng -ljpeg -lz -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

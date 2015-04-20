@@ -1,0 +1,56 @@
+{
+	"modules": ["screen 100 100"],
+	"sprites": ["nuke.png 201 316", "skip.png 201 390"],
+	"clickable": [
+		{
+			"area": [201, 316, 83, 64],
+			"actions": ["signal nuke", "inc $nukes"],
+			"condition": "nis $current_item spanner"
+		},
+		{
+			"area": [201, 316, 83, 64],
+			"condition": "meq $nukes 5",
+			"actions": ["say I worked enough for today"]
+		},
+		{
+			"area": [201, 390, 83, 64],
+			"actions": ["signal skip", "inc $skips"]
+		}
+	], 
+	"triggers": [
+		{
+			"condition":"meq $day 3",
+			"modifiers": {
+				"clickable": [
+					{
+						"area": "bottom",
+						"actions": ["goto office"]
+					},
+					{
+						"area": [201, 316, 83, 64],
+						"condition": "is $current_item spanner",
+						"actions": ["item nukeItem.png", "consume spanner", "say I should destroy this evil device!", "goto office", "inc $has_button"]
+					}
+				], 
+				"onEnter":["signal screen final"]
+			}
+		},
+		{
+			"condition": "le $day 3",
+			"modifiers": {
+				"clickable": [
+					{
+						"area": "bottom",
+						"actions": ["say Wow, finally done", "goto office"],
+						"condition": "meq $nukes 5",
+						"elseActions": ["say Just a few more"]
+					}, {
+						"area": [201, 316, 83, 64],
+						"condition": "is $current_item spanner",
+						"actions": ["say Why would I use the spanner on that # very dangerous but detachable button?"]
+					}
+				]
+			}
+		}
+	]
+}

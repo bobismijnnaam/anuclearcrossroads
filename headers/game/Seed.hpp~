@@ -1,0 +1,47 @@
+// File: Seed.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-22
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef SEED_HPP
+#define SEED_HPP
+
+// Public
+#include <SDL2/SDL.h>
+
+// Private
+#include "nnb/graphics/TextureContainer.hpp"
+#include "game/Player.hpp"
+
+extern int const SEED_OK;
+extern int const SEED_REMOVE;
+extern int const SEED_SPAWN;
+
+class Seed {
+public:
+	Seed(int x_, int y_);
+	~Seed();
+
+	void event(SDL_Event& e);
+	int logic(float delta, Player *player);
+	void render() const;
+
+	SDL_Rect getBounds();
+
+private:
+	nnb::TextureContainer sprite;
+	float x, y;
+
+	double direction = 0;
+
+	int rotDir;
+	int rotDuration;
+	int rotStart;
+	int rotSpd;
+
+	int walkStartX, walkStartY, walkEndX, walkEndY;
+	int walkStart, walkDuration, walkSpd;
+
+} ;
+
+#endif

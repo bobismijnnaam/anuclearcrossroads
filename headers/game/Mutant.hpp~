@@ -1,0 +1,49 @@
+// File: Mutant.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-22
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef MUTANT_HPP
+#define MUTANT_HPP
+
+// Public
+
+// Private
+#include "nnb/graphics/TextureContainer.hpp"
+#include "game/Player.hpp"
+#include "game/Seed.hpp"
+
+extern float MUTANT_SPEED;
+extern bool MUTANT_TOME;
+extern bool MUTANT_TOLIMB;
+extern int MUTANT_SEEKING;
+extern int MUTANT_RESPAWNING;
+extern int MUTANT_DURATION;
+extern int MUTANT_LIVES;
+
+class Mutant {
+public:
+	Mutant();
+	~Mutant();
+
+	void logic(float delta, Player *player, std::vector<Seed>& seeds);
+	void render() const;
+
+	void followMe();
+	void followLimb();
+	SDL_Rect getBounds() const;
+
+private:
+	nnb::TextureContainer sprite;
+	bool target = false;
+	float x = 0, y = 0;
+	int state = MUTANT_SEEKING;
+	int stateStart;
+
+	bool blinking = false;
+	int blinkStart = 0;
+
+	int hp = 2;
+} ;
+
+#endif

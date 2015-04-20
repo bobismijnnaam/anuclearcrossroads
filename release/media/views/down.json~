@@ -1,0 +1,32 @@
+{
+	"triggers": [
+		{
+			"condition": "eq $day 3",
+			"modifiers": {
+				"sprites": ["riot_topdown.png -37 73"],
+				"clickable": [
+					{
+						"area": [0, 0, 495, 225],
+						"condition": "is $current_item nukeItem",
+						"actions": ["signal throwit"]
+					}, {
+						"area": [0, 0, 495, 225],
+						"condition": "nis $current_item nukeItem",
+						"actions": ["signal suicide"]
+					}
+				]
+			}
+		}, {
+			"condition": "else",
+			"modifiers": {
+				"clickable": [
+					{
+						"area": [0, 0, 495, 225],
+						"actions": ["signal suicide"]
+					}
+				]
+			}
+		}
+	],
+	"bottom": "roof"
+}

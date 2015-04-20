@@ -1,0 +1,48 @@
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2014-11-07
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+// Public
+#include <cmath>
+#include <SDL2/SDL.h>
+#include <string>
+
+// Private
+#include "gamestates/gsPAC.hpp"
+#include "main/global.hpp"
+#include "nnb/log/log.hpp"
+#include "nnb/states/GameState.hpp"
+#include "square/square.hpp"
+
+gsPAC::gsPAC() {
+	stateStart = SDL_GetTicks();
+}
+
+void gsPAC::event(SDL_Event& e) {
+	switch (e.type) {
+		case SDL_QUIT:
+			g_gm->exit();
+			break;
+		case SDL_MOUSEBUTTONUP:
+			NNB_LOG << "Mouse button released at (" << e.button.x << "; " << e.button.y << ")";
+			mx = e.button.x;
+			my = e.button.y;
+			goBack = true;
+			break;
+		default:
+			break;
+	}
+}
+
+void gsPAC::logic(float delta) {
+	// No logic here
+}
+
+void gsPAC::render() const {
+	SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
+	SDL_RenderClear(g_renderer);
+
+	// Render code here
+
+	SDL_RenderPresent(g_renderer);
+}

@@ -1,0 +1,19 @@
+// File: highscore.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-22
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef HIGHSCORE_HPP
+#define HIGHSCORE_HPP
+
+// Public
+#include <vector>
+#include <tuple>
+#include <string>
+
+// Private
+
+std::vector<std::tuple<std::string, int>> getHighscores();
+
+
+#endif

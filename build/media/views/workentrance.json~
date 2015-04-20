@@ -1,0 +1,29 @@
+{
+	"left": "carwork",
+	"triggers": [
+		{
+			"condition": "eq $day 3",
+			"modifiers": {
+				"music": "crowd.wav",
+				"sprites": ["crowd.png 95 141"],
+				"clickable": [
+					{
+						"area": [95, 141, 443, 386],
+						"actions": ["say I'll have to use the backdoor Quite a riot. # Lately we have been nuking a lot..."]
+					}	
+				]
+			}
+		}, {
+			"condition": "else",
+			"modifiers": {
+				"music": "wind.wav",
+				"clickable": [
+					{
+						"area": [135, 3, 364, 287],
+						"actions": ["goto office"]
+					}
+				]
+			}
+		}
+	]
+}

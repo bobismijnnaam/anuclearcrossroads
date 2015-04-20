@@ -1,0 +1,34 @@
+// File: Limb.hpp
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2015-03-21
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef LIMB_HPP
+#define LIMB_HPP
+
+// Public
+#include <SDL2/SDL.h>
+
+// Private
+#include "game/Me.hpp"
+
+float const LIMB_SPEED = 200;
+
+class Limb {
+public:
+	Limb(Me *me_);
+	~Limb();
+
+	void event(SDL_Event& e);
+	void logic(float delta);
+	void render() const;
+
+private:
+	nnb::TextureContainer sprite;
+	int dx = 0, dy = 0;
+	float x = 0, y = 0;
+	Me *me = nullptr;
+
+} ;
+
+#endif

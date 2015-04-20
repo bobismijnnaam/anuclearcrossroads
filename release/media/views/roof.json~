@@ -1,0 +1,12 @@
+{
+	"music": "wind.wav",
+	"clickable": [
+		{
+			"area": [0, 0, 500, 219],
+			"actions": ["goto down"]
+		}, {
+			"area": "down",
+			"actions": ["transition 300 office"]
+		}
+	]
+}

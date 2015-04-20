@@ -1,0 +1,38 @@
+// Author: Bob Rubbens - Knights of the Compiler
+// Creation date: 2014-11-07
+// Contact: http://plusminos.nl - @broervanlisa - gmail (bobrubbens)
+
+#ifndef GSMAINMENU_HPP
+#define GSMAINMENU_HPP
+
+// Public
+#include <SDL2/SDL.h>
+#include <string>
+#include <vector>
+
+// Private
+#include "nnb/states/SimpleGameState.hpp"
+#include "nnb/graphics/Text.hpp"
+#include "game/Player.hpp"
+
+class gsIntro : public nnb::SimpleGameState<gsIntro> {
+public:
+	gsIntro();
+	~gsIntro();
+
+	void event(SDL_Event& e);
+	void logic(float delta);
+	void render() const;
+
+	static constexpr auto id = "tutorial";
+
+private:
+	nnb::Text message;
+	nnb::Text message2;
+	Player player;
+	int stateStart = 0;
+	int target = -1;
+	int changeStart;
+} ;
+
+#endif
