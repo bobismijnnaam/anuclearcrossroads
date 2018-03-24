@@ -1,9 +1,0 @@
-add_subdirectory(game)
-add_subdirectory(gamestates)
-add_subdirectory(main)
-add_subdirectory(views)
-
-set(SOURCES
-	${SOURCES}
-	PARENT_SCOPE
-)
