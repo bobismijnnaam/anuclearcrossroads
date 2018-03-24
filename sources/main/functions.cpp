@@ -16,6 +16,7 @@ json jsonFromFile(std::string file) {
 	std::string str = "";
 	for (auto line : vec) {
 		str += line;
+
 	}
 
 	return json::parse(str);
