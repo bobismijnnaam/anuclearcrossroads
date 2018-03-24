@@ -1,0 +1,3 @@
+[submodule "nutsnbolts"]
+	path = nutsnbolts
+	url = git@github.com:bobismijnnaam/nutsnbolts.git
