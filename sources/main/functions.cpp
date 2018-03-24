@@ -5,6 +5,7 @@
 
 // Public
 #include <string>
+#include <cctype>
 
 // Private
 #include "main/functions.hpp"
